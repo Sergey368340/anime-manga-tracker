@@ -57,12 +57,20 @@
 ### Установка
 
 ```bash
-git clone <URL-репозитория>
+git clone https://github.com/Sergey368340/anime-manga-tracker.git
 cd anime-manga-tracker/backend
 npm install
 ```
 
-Создайте файл `.env` на основе `.env.example`:
+Создайте файл `.env` на основе `.env.example`.
+
+В PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+В Linux или macOS:
 
 ```bash
 cp .env.example .env
