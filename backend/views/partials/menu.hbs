@@ -1,0 +1,40 @@
+<nav aria-label="Основная навигация">
+  <ul>
+    <li>
+      <a href="/anime{{authQuery}}">
+        Аниме каталог
+      </a>
+    </li>
+
+    <li>
+      <a href="/manga{{authQuery}}">
+        Манга каталог
+      </a>
+    </li>
+
+    <li>
+      <a href="/news{{authQuery}}">
+        Новости
+      </a>
+    </li>
+
+    {{#if authQuery}}
+      <li>
+        <a href="/users/{{auth}}{{authQuery}}">
+          Профиль
+        </a>
+      </li>
+
+      <li>
+        <a href="/lists/anime{{authQuery}}">
+          Мой список аниме
+        </a>
+      </li>
+      <li>
+        <a href="/lists/manga{{authQuery}}">
+          Мой список манги
+        </a>
+      </li>
+    {{/if}}
+  </ul>
+</nav>

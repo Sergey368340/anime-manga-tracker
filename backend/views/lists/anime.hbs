@@ -1,0 +1,138 @@
+<section class="panel">
+  <div class="catalog-page__header">
+    <div>
+      <h1>Мой список аниме</h1>
+      <p class="catalog-page__subtitle">Список добавленных тайтлов</p>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <form class="catalog-filters" method="get" action="/lists/anime">
+    <input type="hidden" name="auth" value="{{auth}}" />
+
+    <div class="form-row">
+      <label class="form-label" for="status">Статус</label>
+      <select class="form-select" id="status" name="status">
+        <option value="">Все</option>
+        <option value="WATCHING" {{#if (eq filters.status "WATCHING")}}selected{{/if}}>Смотрю</option>
+        <option value="COMPLETED" {{#if (eq filters.status "COMPLETED")}}selected{{/if}}>Просмотрено</option>
+        <option value="PLAN_TO_WATCH" {{#if (eq filters.status "PLAN_TO_WATCH")}}selected{{/if}}>Планирую</option>
+        <option value="ON_HOLD" {{#if (eq filters.status "ON_HOLD")}}selected{{/if}}>На паузе</option>
+        <option value="DROPPED" {{#if (eq filters.status "DROPPED")}}selected{{/if}}>Брошено</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="type">Тип</label>
+      <select class="form-select" id="type" name="type">
+        <option value="">Все</option>
+        <option value="TV" {{#if (eq filters.type "TV")}}selected{{/if}}>TV</option>
+        <option value="MOVIE" {{#if (eq filters.type "MOVIE")}}selected{{/if}}>Фильм</option>
+        <option value="OVA" {{#if (eq filters.type "OVA")}}selected{{/if}}>OVA</option>
+        <option value="SPECIAL" {{#if (eq filters.type "SPECIAL")}}selected{{/if}}>Special</option>
+        <option value="ONA" {{#if (eq filters.type "ONA")}}selected{{/if}}>ONA</option>
+        <option value="MUSIC" {{#if (eq filters.type "MUSIC")}}selected{{/if}}>Music</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="sort">Сортировка</label>
+      <select class="form-select" id="sort" name="sort">
+        <option value="" {{#if (eq filters.sort "")}}selected{{/if}}>Сначала новые</option>
+        <option value="oldest" {{#if (eq filters.sort "oldest")}}selected{{/if}}>Сначала старые</option>
+        <option value="title_asc" {{#if (eq filters.sort "title_asc")}}selected{{/if}}>Название А-Я</option>
+        <option value="title_desc" {{#if (eq filters.sort "title_desc")}}selected{{/if}}>Название Я-А</option>
+        <option value="score_desc" {{#if (eq filters.sort "score_desc")}}selected{{/if}}>Мой рейтинг ↓</option>
+        <option value="score_asc" {{#if (eq filters.sort "score_asc")}}selected{{/if}}>Мой рейтинг ↑</option>
+        <option value="progress_desc" {{#if (eq filters.sort "progress_desc")}}selected{{/if}}>Прогресс ↓</option>
+        <option value="progress_asc" {{#if (eq filters.sort "progress_asc")}}selected{{/if}}>Прогресс ↑</option>
+      </select>
+    </div>
+
+    <div class="catalog-filters__actions">
+      <button class="btn btn-primary" type="submit">Применить</button>
+      <a class="btn btn-danger" href="/lists/anime{{authQuery}}">Сбросить</a>
+    </div>
+  </form>
+</section>
+
+<section class="panel">
+  <div class="catalog-table-wrapper">
+    <table class="catalog-table list-table">
+      <thead>
+      <tr>
+        <th class="list-table__rank">№</th>
+        <th class="list-table__title">Тайтл</th>
+        <th class="list-table__score">Мой рейтинг</th>
+        <th class="list-table__type">Тип</th>
+        <th class="list-table__progress">Прогресс</th>
+        <th class="list-table__actions">Действия</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each list}}
+        <tr>
+          <td class="list-table__rank">{{inc @index}}</td>
+
+          <td class="list-table__title">
+            <div class="catalog-entry">
+              <div class="catalog-entry__poster">
+                <img src="{{this.anime.smallImage}}" alt="{{this.anime.title}}" width="50" />
+              </div>
+
+              <div class="catalog-entry__content">
+                <a class="catalog-entry__name" href="/anime/{{this.anime.slug}}{{../authQuery}}">
+                  {{this.anime.title}}
+                </a>
+
+                <div class="catalog-entry__meta">
+                  {{formatAnimeStatus this.status}}
+                </div>
+              </div>
+            </div>
+          </td>
+
+          <td class="list-table__score">
+            {{#if this.score}}
+              <span class="catalog-score">{{this.score}}</span>
+            {{else}}
+              <span class="catalog-score catalog-score--empty">—</span>
+            {{/if}}
+          </td>
+
+          <td class="list-table__type">
+            {{formatAnimeType this.anime.type}}
+          </td>
+
+          <td class="list-table__progress">
+            {{#if this.progressEpisodes}}
+              {{this.progressEpisodes}}
+            {{else}}
+              0
+            {{/if}}
+            /
+            {{#if this.anime.episodes}}
+              {{this.anime.episodes}}
+            {{else}}
+              ?
+            {{/if}}
+          </td>
+
+          <td class="list-table__actions">
+            <a class="btn btn-primary" href="/lists/anime/{{this.animeId}}/edit{{../authQuery}}">
+              Редактировать
+            </a>
+          </td>
+        </tr>
+      {{else}}
+        <tr>
+          <td colspan="6" class="catalog-table__empty">
+            Список пуст
+          </td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</section>

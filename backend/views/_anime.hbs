@@ -1,0 +1,22 @@
+<h2>Раздел "Аниме"</h2>
+
+{{#if anime}}
+  {{#if anime.length}}
+    {{#each anime}}
+      <div>
+        <a href="/anime/{{this.id}}">{{this.title}}</a>
+      </div>
+    {{/each}}
+  {{else}}
+    <h2>{{anime.title}}</h2>
+  {{/if}}
+{{/if}}
+
+<a href="/anime/add">Добавить</a>
+
+{{#if mode}}
+  <form method="post" action="{{#if anime}}/anime/{{anime.id}}/edit{{else}}/anime{{/if}}">
+    <input name="title" value="{{anime.title}}" />
+    <button type="submit">Сохранить</button>
+  </form>
+{{/if}}

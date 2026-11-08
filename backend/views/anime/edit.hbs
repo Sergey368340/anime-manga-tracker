@@ -1,0 +1,98 @@
+<section class="panel">
+  <h2>Редактировать аниме</h2>
+
+  <form class="form-stack" method="post" action="/anime/{{anime.id}}/edit{{authQuery}}">
+    <div class="form-row">
+      <label class="form-label" for="title">Название</label>
+      <input
+        class="form-input"
+        id="title"
+        name="title"
+        type="text"
+        value="{{anime.title}}"
+        required
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="description">Описание</label>
+      <textarea
+        class="form-textarea"
+        id="description"
+        name="description"
+        rows="6"
+      >{{anime.description}}</textarea>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="type">Тип</label>
+      <select class="form-select" id="type" name="type">
+        <option value="TV" {{#if (eq anime.type "TV")}}selected{{/if}}>TV</option>
+        <option value="MOVIE" {{#if (eq anime.type "MOVIE")}}selected{{/if}}>Movie</option>
+        <option value="OVA" {{#if (eq anime.type "OVA")}}selected{{/if}}>OVA</option>
+        <option value="SPECIAL" {{#if (eq anime.type "SPECIAL")}}selected{{/if}}>Special</option>
+        <option value="ONA" {{#if (eq anime.type "ONA")}}selected{{/if}}>ONA</option>
+        <option value="MUSIC" {{#if (eq anime.type "MUSIC")}}selected{{/if}}>Music</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="airingStatus">Статус</label>
+      <select class="form-select" id="airingStatus" name="airingStatus">
+        <option value="NOT_YET_AIRED" {{#if (eq anime.airingStatus "NOT_YET_AIRED")}}selected{{/if}}>Не вышло</option>
+        <option value="CURRENTLY_AIRING" {{#if (eq anime.airingStatus "CURRENTLY_AIRING")}}selected{{/if}}>Выходит</option>
+        <option value="FINISHED_AIRING" {{#if (eq anime.airingStatus "FINISHED_AIRING")}}selected{{/if}}>Завершено</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="episodes">Эпизодов</label>
+      <input
+        class="form-input"
+        id="episodes"
+        name="episodes"
+        type="number"
+        min="1"
+        value="{{anime.episodes}}"
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="startDate">Дата начала</label>
+      <input
+        class="form-input"
+        id="startDate"
+        type="date"
+        name="startDate"
+        value="{{anime.startDate}}"
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="endDate">Дата окончания</label>
+      <input
+        class="form-input"
+        id="endDate"
+        type="date"
+        name="endDate"
+        value="{{anime.endDate}}"
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="coverImageUrl">URL обложки</label>
+      <input
+        class="form-input"
+        id="coverImageUrl"
+        name="coverImageUrl"
+        type="text"
+        value="{{anime.coverImageUrl}}"
+      />
+    </div>
+
+    <button class="btn btn-primary" type="submit">Сохранить</button>
+  </form>
+  <form method="post" action="/anime/{{anime.id}}/delete{{authQuery}}">
+    <button class="btn btn-danger" type="submit">Удалить</button>
+  </form>
+</section>

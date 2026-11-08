@@ -1,0 +1,45 @@
+<section class="panel user-profile">
+
+  <div class="user-profile__top">
+    <div class="user-profile__avatar">
+      <img src="{{user.avatarUrl}}" alt="{{user.username}}" />
+    </div>
+
+    <div class="user-profile__info">
+      <h1>{{user.username}}</h1>
+
+      <p><strong>Email:</strong> {{user.email}}</p>
+
+      {{#if user.bio}}
+        <p class="user-profile__bio">{{user.bio}}</p>
+      {{/if}}
+
+      <p class="user-profile__meta">
+        Зарегистрирован: {{formatDateRu user.createdAt}}
+      </p>
+    </div>
+  </div>
+
+  <div class="user-profile__lists">
+    <a href="/lists/anime{{authQuery}}" class="btn btn-primary btn-big">
+      Мой список аниме
+    </a>
+
+    <a href="/lists/manga{{authQuery}}" class="btn btn-primary btn-big">
+      Мой список манги
+    </a>
+  </div>
+
+  <div class="user-profile__actions">
+    <a href="/users/{{user.id}}/edit{{authQuery}}" class="btn btn-primary">
+      Редактировать профиль
+    </a>
+
+    <form method="post" action="/users/{{user.id}}/delete{{authQuery}}">
+      <button class="btn btn-danger" type="submit">
+        Удалить аккаунт
+      </button>
+    </form>
+  </div>
+
+</section>

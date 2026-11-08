@@ -1,0 +1,111 @@
+<section class="panel">
+  <h2>Редактировать мангу</h2>
+
+  <form class="form-stack" method="post" action="/manga/{{manga.id}}/edit{{authQuery}}">
+    <div class="form-row">
+      <label class="form-label" for="title">Название</label>
+      <input
+        class="form-input"
+        id="title"
+        name="title"
+        type="text"
+        value="{{manga.title}}"
+        required
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="description">Описание</label>
+      <textarea
+        class="form-textarea"
+        id="description"
+        name="description"
+        rows="6"
+      >{{manga.description}}</textarea>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="type">Тип</label>
+      <select class="form-select" id="type" name="type">
+        <option value="MANGA" {{#if (eq manga.type "MANGA")}}selected{{/if}}>Манга</option>
+        <option value="NOVEL" {{#if (eq manga.type "NOVEL")}}selected{{/if}}>Новелла</option>
+        <option value="ONE_SHOT" {{#if (eq manga.type "ONE_SHOT")}}selected{{/if}}>Ваншот</option>
+        <option value="DOUJINSHI" {{#if (eq manga.type "DOUJINSHI")}}selected{{/if}}>Додзинси</option>
+        <option value="MANHWA" {{#if (eq manga.type "MANHWA")}}selected{{/if}}>Манхва</option>
+        <option value="MANHUA" {{#if (eq manga.type "MANHUA")}}selected{{/if}}>Маньхуа</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="publishingStatus">Статус</label>
+      <select class="form-select" id="publishingStatus" name="publishingStatus">
+        <option value="PUBLISHING" {{#if (eq manga.publishingStatus "PUBLISHING")}}selected{{/if}}>Публикуется</option>
+        <option value="ON_HIATUS" {{#if (eq manga.publishingStatus "ON_HIATUS")}}selected{{/if}}>На паузе</option>
+        <option value="FINISHED" {{#if (eq manga.publishingStatus "FINISHED")}}selected{{/if}}>Завершена</option>
+        <option value="DISCONTINUED" {{#if (eq manga.publishingStatus "DISCONTINUED")}}selected{{/if}}>Прекращена</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="chapters">Глав</label>
+      <input
+        class="form-input"
+        id="chapters"
+        name="chapters"
+        type="number"
+        min="1"
+        value="{{manga.chapters}}"
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="volumes">Томов</label>
+      <input
+        class="form-input"
+        id="volumes"
+        name="volumes"
+        type="number"
+        min="1"
+        value="{{manga.volumes}}"
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="startDate">Дата начала</label>
+      <input
+        class="form-input"
+        id="startDate"
+        type="date"
+        name="startDate"
+        value="{{manga.startDate}}"
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="endDate">Дата окончания</label>
+      <input
+        class="form-input"
+        id="endDate"
+        type="date"
+        name="endDate"
+        value="{{manga.endDate}}"
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="coverImageUrl">URL обложки</label>
+      <input
+        class="form-input"
+        id="coverImageUrl"
+        name="coverImageUrl"
+        type="text"
+        value="{{manga.coverImageUrl}}"
+      />
+    </div>
+
+    <button class="btn btn-primary" type="submit">Сохранить</button>
+  </form>
+  <form method="post" action="/manga/{{manga.id}}/delete{{authQuery}}">
+    <button class="btn btn-danger" type="submit">Удалить</button>
+  </form>
+</section>

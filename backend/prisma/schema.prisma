@@ -1,0 +1,241 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "../er-diagram.svg"
+}
+
+enum AnimeStatus {
+  WATCHING
+  COMPLETED
+  ON_HOLD
+  DROPPED
+  PLAN_TO_WATCH
+}
+
+enum MangaStatus {
+  READING
+  COMPLETED
+  ON_HOLD
+  DROPPED
+  PLAN_TO_READ
+}
+
+enum AnimeType {
+  TV
+  MOVIE
+  OVA
+  SPECIAL
+  ONA
+  MUSIC
+}
+
+enum MangaType {
+  MANGA
+  NOVEL
+  ONE_SHOT
+  DOUJINSHI
+  MANHWA
+  MANHUA
+}
+
+enum AnimeAiringStatus {
+  FINISHED_AIRING
+  CURRENTLY_AIRING
+  NOT_YET_AIRED
+}
+
+enum MangaPublishingStatus {
+  FINISHED
+  PUBLISHING
+  ON_HIATUS
+  DISCONTINUED
+}
+
+enum ReviewRecommendation {
+  RECOMMENDED
+  MIXED
+  NOT_RECOMMENDED
+}
+
+enum ReviewTargetType {
+  ANIME
+  MANGA
+}
+
+model User {
+  id              Int              @id @default(autoincrement())
+  username        String           @unique
+  email           String           @unique
+  passwordHash    String
+  avatarUrl       String?
+  bio             String?          @db.Text
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  animeListEntries AnimeListEntry[]
+  mangaListEntries MangaListEntry[]
+  reviews          Review[]
+}
+
+model Anime {
+  id             Int                @id @default(autoincrement())
+  title          String
+  slug           String             @unique
+  description    String?            @db.Text
+  type           AnimeType
+  airingStatus   AnimeAiringStatus
+  episodes       Int?
+  rating         Float?
+  startDate      DateTime?
+  endDate        DateTime?
+  coverImageUrl  String?
+  bannerImageUrl String?
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+
+  studios     Studio[]
+  listEntries AnimeListEntry[]
+
+  @@index([title])
+  @@index([rating])
+  @@index([startDate])
+}
+
+model Manga {
+  id               Int                    @id @default(autoincrement())
+  title            String
+  slug             String                 @unique
+  description      String?                @db.Text
+  type             MangaType
+  publishingStatus MangaPublishingStatus
+  chapters         Int?
+  volumes          Int?
+  rating           Float?
+  startDate        DateTime?
+  endDate          DateTime?
+  coverImageUrl    String?
+  bannerImageUrl   String?
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+
+  authors     Author[]
+  listEntries MangaListEntry[]
+
+  @@index([title])
+  @@index([rating])
+  @@index([startDate])
+}
+
+model Studio {
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  description String?  @db.Text
+  logoUrl     String?
+  websiteUrl  String?
+  country     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  animes Anime[]
+
+  @@index([name])
+}
+
+model Author {
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  description String?  @db.Text
+  avatarUrl   String?
+  websiteUrl  String?
+  birthDate   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  mangas Manga[]
+
+  @@index([name])
+}
+
+model AnimeListEntry {
+  id               Int         @id @default(autoincrement())
+  userId           Int
+  animeId          Int
+  status           AnimeStatus
+  score            Int?
+  progressEpisodes Int?
+  startedAt        DateTime?
+  finishedAt       DateTime?
+  notes            String?     @db.Text
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  anime Anime @relation(fields: [animeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, animeId])
+  @@index([userId])
+  @@index([animeId])
+}
+
+model MangaListEntry {
+  id               Int         @id @default(autoincrement())
+  userId           Int
+  mangaId          Int
+  status           MangaStatus
+  score            Int?
+  progressChapters Int?
+  progressVolumes  Int?
+  startedAt        DateTime?
+  finishedAt       DateTime?
+  notes            String?     @db.Text
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  manga Manga @relation(fields: [mangaId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, mangaId])
+  @@index([userId])
+  @@index([mangaId])
+}
+
+model Review {
+  id             Int                  @id @default(autoincrement())
+  userId         Int
+  targetType     ReviewTargetType
+  targetId       Int
+  recommendation ReviewRecommendation
+  content        String               @db.Text
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, targetType, targetId])
+  @@index([targetType, targetId])
+}
+
+model News {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  content     String   @db.Text
+  imageUrl    String?
+  publishedAt DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([title])
+  @@index([publishedAt])
+}

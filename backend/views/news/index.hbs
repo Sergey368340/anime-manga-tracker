@@ -1,0 +1,113 @@
+<section class="panel panel-wide">
+  <div class="news-header">
+    <div>
+      <h1>Новости</h1>
+      <p class="news-subtitle">Последние обновления и анонсы</p>
+    </div>
+
+    <a href="/news/add{{authQuery}}" class="btn btn-primary">
+      Добавить
+    </a>
+  </div>
+</section>
+
+<section class="news-feed">
+  {{#each news}}
+    <article class="panel panel-wide news-post">
+      <div class="news-post__head">
+        <div class="news-post__image">
+          <img src="{{this.imageUrl}}" alt="{{this.title}}" />
+        </div>
+
+        <div class="news-post__info">
+          <h2 class="news-post__title">{{this.title}}</h2>
+          <p class="news-post__date">{{formatDateRu this.publishedAt}}</p>
+        </div>
+      </div>
+
+      <div class="news-post__text-wrapper">
+        <div class="news-post__text is-collapsed">
+          {{this.content}}
+        </div>
+        <button class="btn btn-primary news-post__more" type="button">
+          Развернуть
+        </button>
+      </div>
+
+      {{#if (eq ../auth "1")}}
+        <div class="news-post__actions">
+          <a href="/news/{{this.slug}}/edit{{../authQuery}}" class="btn btn-primary">
+            Редактировать
+          </a>
+        </div>
+      {{/if}}
+    </article>
+  {{/each}}
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+/>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+  const evtSource = new EventSource('/news/stream');
+
+  toastr.options = {
+    positionClass: "toast-bottom-right",
+    timeOut: 4000
+  };
+
+  evtSource.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+
+    if (data.type === 'created') {
+      toastr.success('Добавлена новая новость');
+    }
+
+    if (data.type === 'updated') {
+      toastr.info('Новость обновлена');
+    }
+
+    if (data.type === 'deleted') {
+      toastr.error('Новость удалена');
+    }
+
+    setTimeout(() => {
+      location.reload();
+    }, 5000);
+  };
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const posts = document.querySelectorAll('.news-post');
+
+    posts.forEach((post) => {
+      const text = post.querySelector('.news-post__text');
+      const button = post.querySelector('.news-post__more');
+
+      if (!text || !button) return;
+
+      const fullHeight = text.scrollHeight;
+      const collapsedHeight = 220;
+
+      if (fullHeight <= collapsedHeight) {
+        button.style.display = 'none';
+        text.classList.remove('is-collapsed');
+        return;
+      }
+
+      button.addEventListener('click', () => {
+        text.classList.toggle('is-collapsed');
+        button.textContent = text.classList.contains('is-collapsed')
+          ? 'Развернуть'
+          : 'Свернуть';
+      });
+    });
+  });
+</script>

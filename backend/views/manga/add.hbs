@@ -1,0 +1,68 @@
+<section class="panel">
+  <h2>Добавить мангу</h2>
+
+  <form class="form-stack" method="post" action="/manga{{authQuery}}">
+
+    <div class="form-row">
+      <label class="form-label">Название</label>
+      <input class="form-input" name="title" placeholder="Название" required />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Описание</label>
+      <textarea class="form-textarea" name="description" placeholder="Описание"></textarea>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Тип</label>
+      <select class="form-select" name="type">
+        <option value="MANGA">Манга</option>
+        <option value="NOVEL">Новелла</option>
+        <option value="ONE_SHOT">Ваншот</option>
+        <option value="DOUJINSHI">Додзинси</option>
+        <option value="MANHWA">Манхва</option>
+        <option value="MANHUA">Маньхуа</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Статус</label>
+      <select class="form-select" name="publishingStatus">
+        <option value="PUBLISHING">Публикуется</option>
+        <option value="ON_HIATUS">На паузе</option>
+        <option value="FINISHED">Завершена</option>
+        <option value="DISCONTINUED">Прекращена</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Главы</label>
+      <input class="form-input" name="chapters" placeholder="Количество глав" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Тома</label>
+      <input class="form-input" name="volumes" placeholder="Количество томов" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Дата начала</label>
+      <input class="form-input" type="date" name="startDate" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Дата окончания</label>
+      <input class="form-input" type="date" name="endDate" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">URL обложки</label>
+      <input class="form-input" name="coverImageUrl" placeholder="https://..." />
+    </div>
+
+    <button class="btn btn-primary" type="submit">
+      Сохранить
+    </button>
+
+  </form>
+</section>

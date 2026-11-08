@@ -1,0 +1,9 @@
+<h1>{{news.title}}</h1>
+
+<img src="{{news.imageUrl}}" width="300" />
+
+<p>{{news.content}}</p>
+
+<p>{{formatDateRu news.publishedAt}}</p>
+
+<a href="/news/{{news.slug}}/edit{{authQuery}}">Редактировать</a>

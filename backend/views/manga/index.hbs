@@ -1,0 +1,122 @@
+<section class="panel catalog-page">
+  <div class="catalog-page__header">
+    <div>
+      <h1>Каталог манги</h1>
+      <p class="catalog-page__subtitle">Рейтинг и список доступных тайтлов</p>
+    </div>
+
+    <a class="btn btn-primary" href="/manga/add{{authQuery}}">
+      Добавить мангу
+    </a>
+  </div>
+</section>
+
+<section class="panel">
+  <form class="catalog-filters" method="get" action="/manga">
+    <input type="hidden" name="auth" value="{{auth}}" />
+
+    <div class="form-row">
+      <label class="form-label" for="type">Тип</label>
+      <select class="form-select" id="type" name="type">
+        <option value="">Все</option>
+        <option value="MANGA" {{#if (eq filters.type "MANGA")}}selected{{/if}}>Манга</option>
+        <option value="NOVEL" {{#if (eq filters.type "NOVEL")}}selected{{/if}}>Новелла</option>
+        <option value="ONE_SHOT" {{#if (eq filters.type "ONE_SHOT")}}selected{{/if}}>Ваншот</option>
+        <option value="DOUJINSHI" {{#if (eq filters.type "DOUJINSHI")}}selected{{/if}}>Додзинси</option>
+        <option value="MANHWA" {{#if (eq filters.type "MANHWA")}}selected{{/if}}>Манхва</option>
+        <option value="MANHUA" {{#if (eq filters.type "MANHUA")}}selected{{/if}}>Маньхуа</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="publishingStatus">Статус</label>
+      <select class="form-select" id="publishingStatus" name="publishingStatus">
+        <option value="">Все</option>
+        <option value="PUBLISHING" {{#if (eq filters.publishingStatus "PUBLISHING")}}selected{{/if}}>Публикуется</option>
+        <option value="ON_HIATUS" {{#if (eq filters.publishingStatus "ON_HIATUS")}}selected{{/if}}>На паузе</option>
+        <option value="FINISHED" {{#if (eq filters.publishingStatus "FINISHED")}}selected{{/if}}>Завершена</option>
+        <option value="DISCONTINUED" {{#if (eq filters.publishingStatus "DISCONTINUED")}}selected{{/if}}>Прекращена</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="sort">Сортировка</label>
+      <select class="form-select" id="sort" name="sort">
+        <option value="" {{#if (eq filters.sort "")}}selected{{/if}}>Сначала новые</option>
+        <option value="oldest" {{#if (eq filters.sort "oldest")}}selected{{/if}}>Сначала старые</option>
+        <option value="title_asc" {{#if (eq filters.sort "title_asc")}}selected{{/if}}>Название А-Я</option>
+        <option value="title_desc" {{#if (eq filters.sort "title_desc")}}selected{{/if}}>Название Я-А</option>
+        <option value="rating_desc" {{#if (eq filters.sort "rating_desc")}}selected{{/if}}>Рейтинг по убыванию</option>
+        <option value="rating_asc" {{#if (eq filters.sort "rating_asc")}}selected{{/if}}>Рейтинг по возрастанию</option>
+      </select>
+    </div>
+
+    <div class="catalog-filters__actions">
+      <button class="btn btn-primary" type="submit">Применить</button>
+      <a class="btn btn-danger" href="/manga{{authQuery}}">Сбросить</a>
+    </div>
+  </form>
+</section>
+
+<section class="panel">
+  <div class="catalog-table-wrapper">
+    <table class="catalog-table">
+      <thead>
+      <tr>
+        <th class="catalog-table__rank">№</th>
+        <th class="catalog-table__title">Тайтл</th>
+        <th class="catalog-table__score">Рейтинг</th>
+        <th class="catalog-table__status">Статус</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each manga}}
+        <tr>
+          <td class="catalog-table__rank">{{inc @index}}</td>
+
+          <td class="catalog-table__title">
+            <div class="catalog-entry">
+              <div class="catalog-entry__poster">
+                <img src="{{this.smallImage}}" alt="{{this.title}}" width="50" />
+              </div>
+
+              <div class="catalog-entry__content">
+                <a class="catalog-entry__name" href="/manga/{{this.slug}}{{../authQuery}}">
+                  {{this.title}}
+                </a>
+
+                <div class="catalog-entry__meta">
+                  {{formatMangaType this.type}}
+                  {{#if this.chapters}}({{this.chapters}} гл.){{/if}}
+                  <br />
+                  {{formatMangaPublishingStatus this.publishingStatus}}
+                  <br />
+                  {{formatDateRu this.startDate}}
+                </div>
+              </div>
+            </div>
+          </td>
+
+          <td class="catalog-table__score">
+            {{#if this.rating}}
+              <span class="catalog-score">{{this.rating}}</span>
+            {{else}}
+              <span class="catalog-score catalog-score--empty">—</span>
+            {{/if}}
+          </td>
+
+          <td class="catalog-table__status">
+            {{formatMangaPublishingStatus this.publishingStatus}}
+          </td>
+        </tr>
+      {{else}}
+        <tr>
+          <td colspan="4" class="catalog-table__empty">
+            По выбранным фильтрам ничего не найдено
+          </td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</section>

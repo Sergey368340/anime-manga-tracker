@@ -1,0 +1,109 @@
+<section class="panel anime-details">
+  <div class="anime-details__grid">
+    <div class="anime-details__poster">
+      {{#if anime.coverImage}}
+        <img src="{{anime.coverImage}}" alt="{{anime.title}}" width="225" />
+      {{/if}}
+    </div>
+
+    <div class="anime-details__content">
+      <h1>{{anime.title}}</h1>
+
+      {{#if user}}
+        <form method="post" action="/lists/anime/{{anime.id}}{{authQuery}}">
+          <button class="btn btn-primary" type="submit">Добавить в список</button>
+        </form>
+      {{/if}}
+
+      {{#if listEntry}}
+        <p><strong>Мой статус:</strong> {{formatAnimeStatus listEntry.status}}</p>
+      {{/if}}
+
+      <p>{{anime.description}}</p>
+
+      <ul class="anime-details__meta">
+        <li><strong>Тип:</strong> {{formatAnimeType anime.type}}</li>
+        <li><strong>Статус:</strong> {{formatAnimeAiringStatus anime.airingStatus}}</li>
+        <li><strong>Эпизоды:</strong> {{anime.episodes}}</li>
+        <li><strong>Рейтинг:</strong> {{anime.rating}}</li>
+        <li><strong>Начало:</strong> {{formatDateRu anime.startDate}}</li>
+        <li><strong>Конец:</strong> {{formatDateRu anime.endDate}}</li>
+      </ul>
+
+      <div class="anime-details__actions">
+        <a class="btn btn-primary" href="/anime/{{anime.id}}/edit{{authQuery}}">Редактировать</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{#if anime}}
+  <section class="panel">
+    <h3>Добавить отзыв</h3>
+    <form class="form-stack" method="post" action="/reviews{{authQuery}}">
+      <input type="hidden" name="targetType" value="ANIME" />
+      <input type="hidden" name="targetId" value="{{anime.id}}" />
+
+      <div class="form-row">
+        <label class="form-label" for="recommendation">Оценка</label>
+        <select
+          class="form-select"
+          id="recommendation"
+          name="recommendation"
+          required
+        >
+          <option value="RECOMMENDED">Рекомендую</option>
+          <option value="MIXED">Неоднозначно</option>
+          <option value="NOT_RECOMMENDED">Не рекомендую</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label" for="content">Текст отзыва</label>
+        <textarea
+          class="form-textarea"
+          id="content"
+          name="content"
+          rows="5"
+          required
+        ></textarea>
+      </div>
+
+      <button class="btn btn-primary" type="submit">Отправить</button>
+    </form>
+  </section>
+{{/if}}
+
+<section class="panel">
+  <h2>Отзывы</h2>
+
+  {{#if reviews.length}}
+    <div class="reviews-list">
+      {{#each reviews}}
+        <article class="feedback-item">
+          <div class="feedback-item__top">
+            <div>
+              <strong class="feedback-item__name">{{this.user.username}}</strong>
+              <p class="feedback-item__recommendation">
+                {{formatReviewRecommendation this.recommendation}}
+              </p>
+            </div>
+
+            {{#if ../user}}
+              {{#if (or (eq this.user.id ../user.id) (eq ../user.id 1))}}
+                <form method="post" action="/reviews/{{this.id}}/delete{{../authQuery}}">
+                  <button class="btn btn-danger" type="submit">Удалить</button>
+                </form>
+              {{/if}}
+            {{/if}}
+          </div>
+
+          <p class="feedback-item__comment">{{this.content}}</p>
+        </article>
+      {{/each}}
+    </div>
+  {{else}}
+    <p>Пока нет отзывов</p>
+  {{/if}}
+</section>
+

@@ -1,0 +1,9 @@
+<ul class="auth">
+  {{#if isAuth}}
+    <li>Вы вошли как <strong>{{username}}</strong></li>
+    <li><a href="{{currentPath}}?auth=0" class="logout">Выход</a></li>
+  {{else}}
+    <li><a href="{{currentPath}}?auth=1" class="login">Вход</a></li>
+    <li><a href="/users/add{{authQuery}}" class="signup">Регистрация</a></li>
+  {{/if}}
+</ul>

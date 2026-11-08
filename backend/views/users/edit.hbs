@@ -1,0 +1,33 @@
+<section class="panel">
+  <h2>Редактировать профиль</h2>
+
+  <form class="form-stack" method="post" action="/users/{{user.id}}/edit{{authQuery}}">
+
+    <div class="form-row">
+      <label class="form-label">Имя</label>
+      <input class="form-input" name="username" value="{{user.username}}" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Email</label>
+      <input class="form-input" name="email" value="{{user.email}}" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Аватар</label>
+      <input class="form-input" name="avatarUrl" value="{{user.avatarUrl}}" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">О себе</label>
+      <textarea class="form-textarea" name="bio">{{user.bio}}</textarea>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">
+        Сохранить
+      </button>
+    </div>
+
+  </form>
+</section>

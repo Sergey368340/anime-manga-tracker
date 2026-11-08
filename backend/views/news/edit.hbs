@@ -1,0 +1,55 @@
+<section class="panel">
+  <h2>Редактировать новость</h2>
+
+  <form class="form-stack" method="post" action="/news/{{news.slug}}/edit{{authQuery}}">
+    <div class="form-row">
+      <label class="form-label" for="title">Заголовок</label>
+      <input
+        class="form-input"
+        id="title"
+        name="title"
+        type="text"
+        value="{{news.title}}"
+        required
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="content">Содержимое</label>
+      <textarea
+        class="form-textarea"
+        id="content"
+        name="content"
+        rows="6"
+        required
+      >{{news.content}}</textarea>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="imageUrl">Ссылка на изображение</label>
+      <input
+        class="form-input"
+        id="imageUrl"
+        name="imageUrl"
+        type="text"
+        value="{{news.imageUrl}}"
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="publishedAt">Дата публикации</label>
+      <input
+        class="form-input"
+        id="publishedAt"
+        name="publishedAt"
+        type="date"
+        value="{{news.publishedAt}}"
+      />
+    </div>
+
+    <button class="btn btn-primary" type="submit">Сохранить</button>
+  </form>
+  <form method="post" action="/news/{{news.slug}}/delete{{authQuery}}">
+    <button class="btn btn-danger" type="submit">Удалить</button>
+  </form>
+</section>

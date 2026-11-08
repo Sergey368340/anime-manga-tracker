@@ -1,0 +1,60 @@
+<section class="panel">
+  <h2>Добавить аниме</h2>
+
+  <form class="form-stack" method="post" action="/anime{{authQuery}}">
+
+    <div class="form-row">
+      <label class="form-label">Название</label>
+      <input class="form-input" name="title" placeholder="Название" required />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Описание</label>
+      <textarea class="form-textarea" name="description" placeholder="Описание"></textarea>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Тип</label>
+      <select class="form-select" name="type">
+        <option value="TV">TV</option>
+        <option value="MOVIE">Movie</option>
+        <option value="OVA">OVA</option>
+        <option value="SPECIAL">Special</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Статус</label>
+      <select class="form-select" name="airingStatus">
+        <option value="NOT_YET_AIRED">Не вышло</option>
+        <option value="CURRENTLY_AIRING">Выходит</option>
+        <option value="FINISHED_AIRING">Завершено</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Эпизоды</label>
+      <input class="form-input" name="episodes" placeholder="Количество эпизодов" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Дата начала</label>
+      <input class="form-input" type="date" name="startDate" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Дата окончания</label>
+      <input class="form-input" type="date" name="endDate" />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">URL обложки</label>
+      <input class="form-input" name="coverImageUrl" placeholder="https://..." />
+    </div>
+
+    <button class="btn btn-primary" type="submit">
+      Сохранить
+    </button>
+
+  </form>
+</section>

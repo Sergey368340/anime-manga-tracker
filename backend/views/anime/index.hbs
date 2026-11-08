@@ -1,0 +1,121 @@
+<section class="panel catalog-page">
+  <div class="catalog-page__header">
+    <div>
+      <h1>Каталог аниме</h1>
+      <p class="catalog-page__subtitle">Рейтинг и список доступных тайтлов</p>
+    </div>
+
+    <a class="btn btn-primary" href="/anime/add{{authQuery}}">
+      Добавить аниме
+    </a>
+  </div>
+</section>
+
+<section class="panel">
+  <form class="catalog-filters" method="get" action="/anime">
+    <input type="hidden" name="auth" value="{{auth}}" />
+
+    <div class="form-row">
+      <label class="form-label" for="type">Тип</label>
+      <select class="form-select" id="type" name="type">
+        <option value="">Все</option>
+        <option value="TV" {{#if (eq filters.type "TV")}}selected{{/if}}>TV</option>
+        <option value="MOVIE" {{#if (eq filters.type "MOVIE")}}selected{{/if}}>Фильм</option>
+        <option value="OVA" {{#if (eq filters.type "OVA")}}selected{{/if}}>OVA</option>
+        <option value="SPECIAL" {{#if (eq filters.type "SPECIAL")}}selected{{/if}}>Special</option>
+        <option value="ONA" {{#if (eq filters.type "ONA")}}selected{{/if}}>ONA</option>
+        <option value="MUSIC" {{#if (eq filters.type "MUSIC")}}selected{{/if}}>Music</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="airingStatus">Статус</label>
+      <select class="form-select" id="airingStatus" name="airingStatus">
+        <option value="">Все</option>
+        <option value="CURRENTLY_AIRING" {{#if (eq filters.airingStatus "CURRENTLY_AIRING")}}selected{{/if}}>Выходит</option>
+        <option value="NOT_YET_AIRED" {{#if (eq filters.airingStatus "NOT_YET_AIRED")}}selected{{/if}}>Ещё не вышло</option>
+        <option value="FINISHED_AIRING" {{#if (eq filters.airingStatus "FINISHED_AIRING")}}selected{{/if}}>Завершено</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="sort">Сортировка</label>
+      <select class="form-select" id="sort" name="sort">
+        <option value="" {{#if (eq filters.sort "")}}selected{{/if}}>Сначала новые</option>
+        <option value="oldest" {{#if (eq filters.sort "oldest")}}selected{{/if}}>Сначала старые</option>
+        <option value="title_asc" {{#if (eq filters.sort "title_asc")}}selected{{/if}}>Название А-Я</option>
+        <option value="title_desc" {{#if (eq filters.sort "title_desc")}}selected{{/if}}>Название Я-А</option>
+        <option value="rating_desc" {{#if (eq filters.sort "rating_desc")}}selected{{/if}}>Рейтинг по убыванию</option>
+        <option value="rating_asc" {{#if (eq filters.sort "rating_asc")}}selected{{/if}}>Рейтинг по возрастанию</option>
+      </select>
+    </div>
+
+    <div class="catalog-filters__actions">
+      <button class="btn btn-primary" type="submit">Применить</button>
+      <a class="btn btn-danger" href="/anime{{authQuery}}">Сбросить</a>
+    </div>
+  </form>
+</section>
+
+<section class="panel">
+  <div class="catalog-table-wrapper">
+    <table class="catalog-table">
+      <thead>
+      <tr>
+        <th class="catalog-table__rank">№</th>
+        <th class="catalog-table__title">Тайтл</th>
+        <th class="catalog-table__score">Рейтинг</th>
+        <th class="catalog-table__status">Статус</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each anime}}
+        <tr>
+          <td class="catalog-table__rank">{{inc @index}}</td>
+
+          <td class="catalog-table__title">
+            <div class="catalog-entry">
+              <div class="catalog-entry__poster">
+                <img src="{{this.smallImage}}" alt="{{this.title}}" width="50" />
+              </div>
+
+              <div class="catalog-entry__content">
+                <a class="catalog-entry__name" href="/anime/{{this.slug}}{{../authQuery}}">
+                  {{this.title}}
+                </a>
+
+                <div class="catalog-entry__meta">
+                  {{formatAnimeType this.type}}
+                  {{#if this.episodes}}({{this.episodes}} эп.){{/if}}
+                  <br />
+                  {{formatAnimeAiringStatus this.airingStatus}}
+                  <br />
+                  {{formatDateRu this.startDate}}
+                </div>
+              </div>
+            </div>
+          </td>
+
+          <td class="catalog-table__score">
+            {{#if this.rating}}
+              <span class="catalog-score">{{this.rating}}</span>
+            {{else}}
+              <span class="catalog-score catalog-score--empty">—</span>
+            {{/if}}
+          </td>
+
+          <td class="catalog-table__status">
+            {{formatAnimeAiringStatus this.airingStatus}}
+          </td>
+        </tr>
+      {{else}}
+        <tr>
+          <td colspan="4" class="catalog-table__empty">
+            По выбранным фильтрам ничего не найдено
+          </td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</section>

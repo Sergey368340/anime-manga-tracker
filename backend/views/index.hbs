@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  {{> bundles}}
+  <title>{{title}}</title>
+</head>
+
+<body>
+{{> header}}
+
+<main>
+  <div class="main-grid">
+    <section class="left-col">
+      <h2 id="seasonal">Лето 2025</h2>
+
+      <ul>
+        {{#each seasonal}}
+          {{> seasonalItem}}
+        {{/each}}
+      </ul>
+
+      <section>
+        <h2 id="latest-reviews">Последние Отзывы</h2>
+        <article>
+          <header>
+            <h3><a href="#" class="review_title">«Название тайтла» — первый сезон</a></h3>
+            <p>
+              <a href="#" class="review_usernames">Имя Пользователя</a>
+              <time datetime="2025-09-10">10.09.2025</time>
+            </p>
+          </header>
+
+          <p>
+            <em><strong>Лучший опенинг сезона</strong></em>, сюжет хорош, но финал
+            <del>провисает</del>
+            <ins>оставляет простор для теорий</ins>.
+          </p>
+
+          <blockquote>
+            «Люди умирают, если их убить».
+            <cite> — Сиро Эмия</cite>
+          </blockquote>
+        </article>
+
+        <article>
+          <header>
+            <h3><a href="#" class="review_title">«Название тайтла» — второй сезон</a></h3>
+            <p>
+              <a href="#" class="review_usernames">Имя Пользователя</a>
+              <time datetime="2025-09-11">11.09.2025</time>
+            </p>
+          </header>
+
+          норм
+        </article>
+      </section>
+    </section>
+
+    <section class="right-col">
+      <h2 id="most_popular">Топ Аниме</h2>
+      <ol>
+        <li>
+          {{#each topAnime}}
+            {{> topItem}}
+          {{/each}}
+        </li>
+      </ol>
+    </section>
+  </div>
+
+</main>
+
+{{> footer}}
+</body>
+</html>

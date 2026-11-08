@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <script src="/scripts/main.js" defer></script>
+  <script src="scripts/form-runtime.js" defer></script>
+  {{>bundles}}
+  <title>Манга - МойАнимеСписок</title>
+</head>
+<body>
+{{>header}}
+
+<main>
+  <section class="feedback-section">
+    <h2>Оставить отзыв</h2>
+
+    <form id="feedback-form" novalidate>
+      <div class="form-row">
+        <label for="fb-name">Имя</label>
+        <input
+          id="fb-name"
+          name="name"
+          type="text"
+          placeholder="Ваше имя"
+          required
+          minlength="2"
+          maxlength="40">
+      </div>
+
+      <div class="form-row">
+        <label for="fb-comment">Отзыв</label>
+        <textarea
+          id="fb-comment"
+          name="comment"
+          rows="4"
+          placeholder="Ваш отзыв о сайте"
+          required
+          minlength="5"
+          maxlength="400"></textarea>
+      </div>
+
+      <button type="submit" class="feedback-submit-btn">Добавить</button>
+    </form>
+  </section>
+
+  <section class="feedback-list-section">
+    <h2>Все отзывы</h2>
+
+    <div id="feedback-list"></div>
+
+    <template id="feedback-item-template">
+      <article class="feedback-item" data-id="">
+        <h3 class="feedback-item__name"></h3>
+        <p class="feedback-item__comment"></p>
+        <div class="feedback-item__actions">
+          <button type="button" class="feedback-item__edit-btn">Изменить</button>
+          <button type="button" class="feedback-item__delete-btn">Удалить</button>
+        </div>
+      </article>
+    </template>
+  </section>
+</main>
+
+
+{{> footer}}
+</body>
+</html>

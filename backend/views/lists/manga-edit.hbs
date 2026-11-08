@@ -1,0 +1,74 @@
+<section class="panel">
+  <h2>Редактировать запись</h2>
+
+  <form class="form-stack" method="post" action="/lists/manga/{{entry.mangaId}}/update{{authQuery}}">
+
+    <div class="form-row">
+      <label class="form-label">Статус</label>
+      <select class="form-select" name="status">
+        <option value="READING" {{#if (eq entry.status "READING")}}selected{{/if}}>Читаю</option>
+        <option value="COMPLETED" {{#if (eq entry.status "COMPLETED")}}selected{{/if}}>Прочитано</option>
+        <option value="PLAN_TO_READ" {{#if (eq entry.status "PLAN_TO_READ")}}selected{{/if}}>Планирую</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Главы</label>
+      <input
+        class="form-input"
+        name="progressChapters"
+        type="number"
+        min="0"
+        max="{{entry.manga.chapters}}"
+        value="{{entry.progressChapters}}"
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Тома</label>
+      <input
+        class="form-input"
+        name="progressVolumes"
+        type="number"
+        min="0"
+        max="{{entry.manga.volumes}}"
+        value="{{entry.progressVolumes}}"
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Оценка</label>
+      <input
+        class="form-input"
+        name="score"
+        type="number"
+        min="0"
+        max="10"
+        value="{{entry.score}}"
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Заметки</label>
+      <textarea
+        class="form-textarea"
+        name="notes"
+        rows="4"
+      >{{entry.notes}}</textarea>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">
+        Сохранить
+      </button>
+    </div>
+
+  </form>
+
+  <form method="post" action="/lists/manga/{{entry.mangaId}}/delete{{authQuery}}">
+    <button class="btn btn-danger" type="submit">
+      Удалить из списка
+    </button>
+  </form>
+
+</section>

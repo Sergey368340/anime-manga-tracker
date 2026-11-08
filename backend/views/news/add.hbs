@@ -1,0 +1,51 @@
+<section class="panel">
+  <h2>Добавить новость</h2>
+
+  <form class="form-stack" method="post" action="/news{{authQuery}}">
+
+    <div class="form-row">
+      <label class="form-label">Заголовок</label>
+      <input
+        class="form-input"
+        name="title"
+        placeholder="Заголовок новости"
+        required
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Содержание</label>
+      <textarea
+        class="form-textarea"
+        name="content"
+        rows="6"
+        placeholder="Текст новости"
+      ></textarea>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">URL картинки</label>
+      <input
+        class="form-input"
+        name="imageUrl"
+        placeholder="https://..."
+      />
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Дата публикации</label>
+      <input
+        class="form-input"
+        type="date"
+        name="publishedAt"
+      />
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">
+        Сохранить
+      </button>
+    </div>
+
+  </form>
+</section>
